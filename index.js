@@ -1,4 +1,5 @@
 require('dotenv').config()
+require('log-timestamp')
 const express = require('express')
 const app = express()
 
@@ -60,4 +61,3 @@ app.post('/changepin/:leieobjekt/:six_digit_pin', async (req, res) => {
 app.listen(port, () => {
     console.log(`lock gateway app running on port ${port}`)
 })
-

@@ -11,6 +11,27 @@ app.get('/', (req, res) => {
     res.send('Server running.')
 })
 
+function isValidSixDigitPin(pin) {
+    // javascript special case
+    if (pin == '000000') {
+        return true
+    }
+
+    if (!pin) {
+        return false
+    }
+
+    if (pin.length !== 6) {
+        return false
+    }
+
+    if(/[0-9]{6,6}/.test(pin)) {
+        return true
+    }
+
+    return false
+}
+
 app.post('/changepin/:leieobjekt/:six_digit_pin', async (req, res) => {
     const leieobjekt = req.params.leieobjekt
     const six_digit_pin = req.params.six_digit_pin
@@ -21,9 +42,10 @@ app.post('/changepin/:leieobjekt/:six_digit_pin', async (req, res) => {
         res.status(400).send('leieobjekt missing')
         return
     }
-    if (!six_digit_pin) {
-        console.info(`>>> six_digit_pin missing`)
-        res.status(400).send('six_digit_pin missing')
+
+    if (!isValidSixDigitPin(six_digit_pin)) {
+        console.info(`>>> six_digit_pin not valid`)
+        res.status(400).send('six_digit_pin not valid')
         return
     }
 
